@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Map - Directions</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&libraries=places&v=weekly" async></script>
+</head>
+<body style="margin: 0; padding: 0; height: 100vh; display: flex;">
+
+    <!-- Phần bên trái (nền đen) -->
+    <div style="flex: 1; background-color: black;"></div>
+
+    <!-- Phần giữa (Google Map và giao diện tìm kiếm) -->
+    <div style="flex: 2; position: relative;">
+        <!-- Nhúng Google Map từ link -->
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d304.1840606385528!2d14.440742701063677!3d50.08354590204804!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470b9490b3955555%3A0x1b0ecfff2015a3af!2sFaculty%20of%20Informatics%2C%20University%20of%20Economics%2C%20Prague!5e1!3m2!1sen!2scz!4v1733420457643!5m2!1sen!2scz" 
+            style="width: 100%; height: 100%; border: none;" 
+            allowfullscreen="" 
+            loading="lazy">
+        </iframe>
+
+        <!-- Lớp nền (overlay) chứa các nút, nằm dưới bản đồ -->
+        <div style="position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); background-color: white; padding: 20px; border-radius: 15px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); display: flex; flex-direction: row; justify-content: space-around; width: 75%; z-index: 2;">
+            
+            <!-- Nút Go -->
+            <button style="background-color: #007BFF; color: white; border: none; border-radius: 5px; padding: 10px 20px; display: flex; align-items: center; font-size: 1rem; cursor: pointer; margin: 0 10px;">
+                <img src="image/arrow.png" alt="Go" style="width: 20px; height: 20px; margin-right: 10px;">
+                Go
+            </button>
+
+            <!-- Nút Live View -->
+            <button style="background-color: #28a745; color: white; border: none; border-radius: 5px; padding: 10px 20px; display: flex; align-items: center; font-size: 1rem; cursor: pointer; margin: 0 10px;">
+                <img src="image/pin.png" alt="Live View" style="width: 20px; height: 20px; margin-right: 10px;">
+                Live View
+            </button>
+
+            <!-- Nút Finish -->
+           <a href="flexrouteaceess.html">
+            <button style="background-color: #dc3545; color: white; border: none; border-radius: 5px; padding: 10px 20px; display: flex; align-items: center; font-size: 1rem; cursor: pointer; margin: 0 10px;">
+                Finish
+            </button>
+           </a>
+           <button style="background-color: gray; color: white; border: none; border-radius: 5px; padding: 10px 20px; display: flex; align-items: center; font-size: 1rem; cursor: pointer; margin: 0 10px;">
+            <img src="image/settings.png" alt="Live View" style="width: 20px; height: 20px; margin-right: 10px;">
+            Setting
+        </button>
+            
+        </div>
+    </div>
+
+    <!-- Phần bên phải (nền đen) -->
+    <div style="flex: 1; background-color: black;"></div>
+
+    <!-- JavaScript -->
+    <script>
+        let map, directionsService, directionsRenderer;
+
+        function initMap() {
+            // Khởi tạo bản đồ tại một vị trí mặc định
+            const initialPosition = { lat: 50.084, lng: 14.4408 };
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: initialPosition,
+                zoom: 13,
+            });
+
+            directionsService = new google.maps.DirectionsService();
+            directionsRenderer = new google.maps.DirectionsRenderer();
+            directionsRenderer.setMap(map);
+
+            // Tạo các control cho input tìm kiếm
+            const inputOrigin = document.getElementById("origin-input");
+            const inputDestination = document.getElementById("destination-input");
+
+            const autocompleteOrigin = new google.maps.places.Autocomplete(inputOrigin);
+            const autocompleteDestination = new google.maps.places.Autocomplete(inputDestination);
+
+            autocompleteOrigin.bindTo("bounds", map);
+            autocompleteDestination.bindTo("bounds", map);
+        }
+
+        // Hàm tính toán lộ trình
+        function calculateRoute() {
+            const origin = document.getElementById("origin-input").value;
+            const destination = document.getElementById("destination-input").value;
+
+            if (!origin || !destination) {
+                alert("Please enter both origin and destination.");
+                return;
+            }
+
+            const request = {
+                origin: origin,
+                destination: destination,
+                travelMode: google.maps.TravelMode.DRIVING,
+            };
+
+            directionsService.route(request, (result, status) => {
+                if (status === google.maps.DirectionsStatus.OK) {
+                    directionsRenderer.setDirections(result);
+                } else {
+                    alert("Could not calculate route: " + status);
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

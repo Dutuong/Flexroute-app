@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Map with Search</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: black; display: flex; height: 100vh;">
+
+    <!-- Phần bên trái (nền đen) -->
+    <div style="flex: 1; background-color: black;"></div>
+
+    <!-- Phần giữa (Google Map và giao diện tìm kiếm) -->
+    <div style="flex: 2; position: relative;" id="map-container">
+        <!-- Google Map -->
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d380.56355259707703!2d14.440878755605956!3d50.08411093575883!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470b95e2efaa4db9%3A0x9007d9c1f752550c!2sPrague%20University%20of%20Economics%20and%20Business!5e0!3m2!1sen!2scz!4v1731969972968!5m2!1sen!2scz" 
+            style="width: 100%; height: 100%; border: none;" 
+            allowfullscreen="" 
+            loading="lazy">
+        </iframe>
+
+        <!-- Lớp giao diện tìm kiếm -->
+        <div style="position: absolute; top: 10%; left: 50%; transform: translateX(-50%); width: 90%; background-color: white; border-radius: 15px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); padding: 20px; z-index: 2; display: flex; align-items: center;">
+            
+            <!-- Biểu tượng menu 3 gạch -->
+            <div style="margin-right: 10px; cursor: pointer;" id="menu-icon" onclick="toggleMenu()">
+                <img src="image/list.png" alt="Menu" style="width: 30px; height: auto;">
+            </div>
+
+            <!-- Ô tìm kiếm -->
+            <input 
+                type="text" 
+                placeholder="Where you want to go" 
+                style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 1rem;" 
+                onclick="showList()"
+                id="search-input">
+
+            <!-- Danh sách các địa điểm -->
+            <ul id="location-list" style="list-style: none; padding: 0; margin: 0; display: none; max-height: 200px; overflow-y: auto; position: absolute; top: 60px; left: 0; right: 0; background-color: white; border-radius: 5px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); z-index: 10;">
+                <a href="flexrouteaccess2.html">
+                    <li style="font-size: 1.2rem; padding: 10px; border-bottom: 1px solid #ddd; cursor: pointer; transition: background-color 0.3s;">
+                        My location <span style="font-size: 1rem; color: gray; display: block; margin-top: 5px;">Faculty of Informatics</span>
+                    </li>
+                </a>
+                <a href="flexrouteaccess2.html">
+                    <li style="font-size: 1.2rem; padding: 10px; border-bottom: 1px solid #ddd; cursor: pointer; transition: background-color 0.3s;">SB 321</li>
+                </a>
+                <a href="flexrouteaccess2.html">
+                    <li style="font-size: 1.2rem; padding: 10px; border-bottom: 1px solid #ddd; cursor: pointer; transition: background-color 0.3s;">RB 211</li>
+                </a>
+                <a href="flexrouteaccess2.html">
+                    <li style="font-size: 1.2rem; padding: 10px; border-bottom: 1px solid #ddd; cursor: pointer; transition: background-color 0.3s;">Library</li>
+                </a>
+                <a href="flexrouteaccess2.html">
+                    <li style="font-size: 1.2rem; padding: 10px; border-bottom: 1px solid #ddd; cursor: pointer; transition: background-color 0.3s;">NB B</li>
+                </a>
+                <a href="flexrouteaccess2.html">
+                    <li style="font-size: 1.2rem; padding: 10px; border-bottom: 1px solid #ddd; cursor: pointer; transition: background-color 0.3s;">SB building</li>
+                </a>
+                <a href="flexrouteaccess2.html">
+                    <li style="font-size: 1.2rem; padding: 10px; border-bottom: 1px solid #ddd; cursor: pointer; transition: background-color 0.3s;">RB building</li>
+                </a>
+            </ul>
+        </div>
+
+        <!-- Danh sách menu khi bấm vào biểu tượng menu -->
+        <div id="menu-list" style="display: none; position: absolute; top: 20%; left: 50%; transform: translateX(-50%); background-color: white; border-radius: 8px; width: 200px; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); z-index: 3;">
+            <ul style="list-style: none; padding: 0; margin: 0;">
+                <li style="padding: 10px; border-bottom: 1px solid #ddd; cursor: pointer;">
+                    <img src="settings-icon.png" alt="Settings" style="width: 20px; height: auto; margin-right: 10px;"> Setting
+                </li>
+                <li style="padding: 10px; border-bottom: 1px solid #ddd; cursor: pointer;">
+                    <img src="help-icon.png" alt="Help" style="width: 20px; height: auto; margin-right: 10px;"> Help & Feedback
+                </li>
+                <li style="padding: 10px; border-bottom: 1px solid #ddd; cursor: pointer;">
+                    <img src="inbox-icon.png" alt="Inbox" style="width: 20px; height: auto; margin-right: 10px;"> Inbox
+                </li>
+                <li style="padding: 10px; cursor: pointer;">
+                    <img src="profile-icon.png" alt="Profile" style="width: 20px; height: auto; margin-right: 10px;"> Your Profile
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Phần bên phải (nền đen) -->
+    <div style="flex: 1; background-color: black;"></div>
+
+    <!-- JavaScript -->
+    <script>
+        // Hàm hiển thị danh sách địa điểm
+        function showList() {
+            document.getElementById('location-list').style.display = 'block';
+        }
+
+        // Hàm xử lý khi chọn địa điểm
+        function selectLocation(locationName) {
+            alert(`You selected: ${locationName}`);
+            hideList(); // Ẩn danh sách sau khi chọn
+        }
+
+        // Hàm ẩn danh sách
+        function hideList() {
+            document.getElementById('location-list').style.display = 'none';
+        }
+
+        // Hàm toggle menu khi nhấn vào biểu tượng menu
+        function toggleMenu() {
+            const menuList = document.getElementById('menu-list');
+            // Kiểm tra nếu menu đang ẩn thì hiển thị, ngược lại thì ẩn
+            if (menuList.style.display === 'none' || menuList.style.display === '') {
+                menuList.style.display = 'block';
+            } else {
+                menuList.style.display = 'none';
+            }
+        }
+
+        // Xử lý sự kiện nhấp ra ngoài
+        document.addEventListener('click', function(event) {
+            const list = document.getElementById('location-list');
+            const input = document.getElementById('search-input');
+            const menuIcon = document.getElementById('menu-icon'); // Biểu tượng menu
+            const menuList = document.getElementById('menu-list'); // Danh sách menu
+
+            // Kiểm tra nếu click không thuộc danh sách hoặc ô tìm kiếm
+            if (!list.contains(event.target) && event.target !== input && event.target !== menuIcon && !menuList.contains(event.target)) {
+                hideList(); // Ẩn danh sách
+                menuList.style.display = 'none'; // Ẩn menu khi click ra ngoài
+            }
+        });
+
+        // Xử lý sự kiện cuộn (roll)
+        document.addEventListener('scroll', function() {
+            hideList(); // Ẩn danh sách ngay khi người dùng cuộn
+            document.getElementById('menu-list').style.display = 'none'; // Ẩn menu khi cuộn
+        });
+
+        // Ngăn chặn sự kiện click bên trong ô tìm kiếm không làm ẩn danh sách
+        document.getElementById('search-input').addEventListener('click', function(event) {
+            event.stopPropagation();
+            showList();
+        });
+    </script>
+</body>
+</html>

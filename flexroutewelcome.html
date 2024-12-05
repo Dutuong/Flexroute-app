@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlexRoute - Welcome</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: black; display: flex; height: 100vh;">
+
+    <!-- Phần bên trái (màu đen) -->
+    <div style="flex: 1; background-color: black;"></div>
+
+    <!-- Phần nội dung ở giữa -->
+    <div style="flex: 2; background-color: #007BFF; color: white; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; box-sizing: border-box; position: relative; padding: 10px;">
+
+        <!-- Biểu tượng chọn ngôn ngữ -->
+        <div style="position: absolute; top: 10px; right: 10px;">
+            <img src="image/icon language.png" alt="Language Icon" style="width: 50px; height: auto; cursor: pointer;" onclick="toggleLanguageList()">
+            <!-- Danh sách ngôn ngữ khi được click -->
+            <ul id="language-list" style="list-style: none; margin: 0; padding: 0; background-color: white; color: black; position: absolute; top: 40px; right: 0; display: none; border: 1px solid #ddd; border-radius: 5px; box-shadow: 0px 4px 6px rgba(0,0,0,0.2);">
+                <li style="padding: 10px; cursor: pointer;" onclick="selectLanguage('English')">English</li>
+                <li style="padding: 10px; cursor: pointer;" onclick="selectLanguage('Chinese')">中文</li>
+                <li style="padding: 10px; cursor: pointer;" onclick="selectLanguage('Czech')">čeština</li>
+            </ul> 
+        </div>
+
+        <!-- Logo -->
+        <div style="margin-top: 20px;">
+            <img src="image/flexroute logo.png" alt="FlexRoute logo" style="width: 200px; height: auto;">
+        </div>
+
+        <!-- Tiêu đề -->
+        <h1 style="font-size: 2rem; margin: 10px 0;">Welcome to FlexRoute</h1>
+
+        <!-- Thông điệp -->
+        <h3 style="font-size: 1.2rem; margin: 20px 0;">Flexible route as you can go</h3>
+
+        <!-- Nút Use -->
+       <a href="flexroutelogin.html">
+        <button 
+            style="border-color: black; background-color: white; color: #007BFF; padding: 15px 100px; border-radius: 20px; font-size: 1rem; cursor: pointer; margin-top: 20px; border: none;">
+            <div style="font-size: 25px;">Use</div>
+        </button>
+       </a>   
+    </div>
+
+    <!-- Phần bên phải (màu đen) -->
+    <div style="flex: 1; background-color: black;"></div>
+
+    <script>
+        // Hiển thị hoặc ẩn danh sách ngôn ngữ
+        function toggleLanguageList() {
+            const languageList = document.getElementById('language-list');
+            if (languageList.style.display === 'none' || languageList.style.display === '') {
+                languageList.style.display = 'block';
+            } else {
+                languageList.style.display = 'none';
+            }
+        }
+
+        // Xử lý khi chọn ngôn ngữ
+        function selectLanguage(language) {
+            alert('You selected: ' + language);
+            // Tắt danh sách sau khi chọn
+            document.getElementById('language-list').style.display = 'none';
+        }
+
+        // Ẩn danh sách ngôn ngữ khi click ra ngoài
+        document.addEventListener('click', function (event) {
+            const languageList = document.getElementById('language-list');
+            const icon = document.querySelector('img[onclick="toggleLanguageList()"]');
+            if (languageList.style.display === 'block' && !languageList.contains(event.target) && event.target !== icon) {
+                languageList.style.display = 'none';
+            }
+        });
+
+        // Chuyển đến trang đăng nhập
+        function goToLogin() {
+            alert('Going to login...');
+        }
+    </script>
+</body>
+</html>

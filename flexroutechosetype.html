@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlexRoute - Options</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: black; display: flex; height: 100vh; justify-content: center; align-items: center;">
+
+    <!-- Phần bên trái (nền đen) -->
+    <div style="flex: 1; background-color: black;"></div>
+
+    <!-- Phần giữa (nền xanh) -->
+    <div style="flex: 2; background-color: #007BFF; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; padding: 20px;">
+
+        <!-- Tiêu đề -->
+        <h1 style="font-size: 2.5rem; font-weight: bold; color: black; margin-bottom: 30px;">First time do you use?</h1>
+
+        <!-- Nội dung các tùy chọn -->
+        <div style="width: 90%; max-width: 350px; text-align: left; margin-bottom: 50px;">
+
+            <!-- Regular User -->
+            <label style="display: flex; align-items: center; margin-bottom: 20px; font-size: 2rem; color: black;">
+                <input type="checkbox" style="margin-right: 15px; width: 30px; height: 30px;">
+                Regular user
+            </label>
+
+            <!-- Wheelchair -->
+            <label style="display: flex; align-items: center; margin-bottom: 20px; font-size: 2rem; color: black;">
+                <input type="checkbox" style="margin-right: 15px; width: 30px; height: 30px;">
+                Wheelchair
+            </label>
+
+            <!-- Visual Impairment -->
+            <label style="display: flex; align-items: center; margin-bottom: 20px; font-size: 2rem; color: black;">
+                <input type="checkbox" style="margin-right: 15px; width: 30px; height: 30px;">
+                Visual Impairment
+            </label>
+
+        </div>
+
+        <!-- Chứa các nút Back và Next -->
+        <div style="display: flex; justify-content: space-between; width: 60%; margin-top: 20px;">
+            <!-- Nút Back -->
+            <a href="flexroutelogin.html">
+                <button style="display: flex; align-items: center; justify-content: center; background-color: transparent; color: white; padding: 10px 30px; font-size: 1.5rem; font-weight: 600; cursor: pointer; text-transform: uppercase; font-family: 'Arial', sans-serif; width: 45%; border: none;">
+                    <img src="image/left-chevron.png" alt="Back button" style="width: 50px; height: auto; margin-left: 10px;">
+                </button>
+            </a>
+
+            <!-- Nút Next -->
+            <a href="flexrouteaceess.html">
+                <button style="display: flex; align-items: center; justify-content: center; background-color: transparent; color: white; padding: 10px 30px; font-size: 1.5rem; font-weight: 600; cursor: pointer; text-transform: uppercase; font-family: 'Arial', sans-serif; width: 45%; border: none;">
+                    <img src="image/right-chevron.png" alt="Next button" style="width: 50px; height: auto; margin-left: 10px;">
+                </button>
+            </a>
+        </div>
+
+    </div>
+
+    <!-- Phần bên phải (nền đen) -->
+    <div style="flex: 1; background-color: black;"></div>
+
+</body>
+</html>
